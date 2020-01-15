@@ -1,0 +1,467 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_ms_gdp_sandbox_logicapp_name": {
+            "defaultValue": "ms-gdp-sandbox-logicapp",
+            "type": "String"
+        },
+        "sites_ms_gdp_sandbox_functions_externalid": {
+            "defaultValue": "/subscriptions/d7a6978e-18e2-48b3-ab11-9a363dc3e746/resourceGroups/sandbox-dataplatform/providers/Microsoft.Web/sites/ms-gdp-sandbox-functions",
+            "type": "String"
+        },
+        "connections_documentdb_externalid": {
+            "defaultValue": "/subscriptions/d7a6978e-18e2-48b3-ab11-9a363dc3e746/resourceGroups/sandbox-dataplatform/providers/Microsoft.Web/connections/documentdb",
+            "type": "String"
+        },
+        "connections_office365_externalid": {
+            "defaultValue": "/subscriptions/d7a6978e-18e2-48b3-ab11-9a363dc3e746/resourceGroups/SANDBOX-DATAPLATFORM/providers/Microsoft.Web/connections/office365",
+            "type": "String"
+        },
+        "connections_visualstudioteamservices_1_externalid": {
+            "defaultValue": "/subscriptions/d7a6978e-18e2-48b3-ab11-9a363dc3e746/resourceGroups/sandbox-dataplatform/providers/Microsoft.Web/connections/visualstudioteamservices-1",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_ms_gdp_sandbox_logicapp_name')]",
+            "location": "westeurope",
+            "identity": {
+                "principalId": "6a45863d-49f1-4d00-ae37-fbb7d88399d9",
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "method": "POST",
+                                "schema": {
+                                    "properties": {
+                                        "comment": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "image": {
+                                            "type": "string"
+                                        },
+                                        "lifetime": {
+                                            "type": "string"
+                                        },
+                                        "location": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "requesttime": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "BuildRequestFunc": {
+                            "runAfter": {},
+                            "type": "Function",
+                            "inputs": {
+                                "body": {
+                                    "comment": "@{triggerBody()?['comment']}",
+                                    "email": "@{triggerBody()?['email']}",
+                                    "image": "@{triggerBody()?['image']}",
+                                    "lifetime": "@{triggerBody()?['lifetime']}",
+                                    "location": "@{triggerBody()?['location']}",
+                                    "name": "@{triggerBody()?['name']}",
+                                    "requesttime": "@{triggerBody()?['requesttime']}"
+                                },
+                                "function": {
+                                    "id": "[concat(parameters('sites_ms_gdp_sandbox_functions_externalid'), '/functions/BuildRequestFunc')]"
+                                }
+                            }
+                        },
+                        "Create_or_update_document": {
+                            "runAfter": {
+                                "Parse_JSON": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "body": {
+                                    "comment": "@body('Parse_JSON')?['comment']",
+                                    "email": "@body('Parse_JSON')?['email']",
+                                    "id": "@body('Parse_JSON')['id']",
+                                    "image": "@body('Parse_JSON')?['image']",
+                                    "lifetime": "@body('Parse_JSON')?['lifetime']",
+                                    "location": "@body('Parse_JSON')?['location']",
+                                    "name": "@body('Parse_JSON')?['name']",
+                                    "requesttime": "@body('Parse_JSON')?['requesttime']",
+                                    "status": null
+                                },
+                                "headers": {
+                                    "x-ms-consistency-level": "Strong",
+                                    "x-ms-documentdb-partitionkey": "@body('Parse_JSON')?['id']"
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['documentdb']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/dbs/@{encodeURIComponent('SandDB')}/colls/@{encodeURIComponent('adodata')}/docs"
+                            }
+                        },
+                        "Parse_JSON": {
+                            "runAfter": {
+                                "BuildRequestFunc": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ParseJson",
+                            "inputs": {
+                                "content": "@body('BuildRequestFunc')",
+                                "schema": {
+                                    "properties": {
+                                        "comment": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "image": {
+                                            "type": "string"
+                                        },
+                                        "lifetime": {
+                                            "type": "string"
+                                        },
+                                        "location": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "requesttime": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "Send_approval_email_to_administrators": {
+                            "runAfter": {
+                                "Create_or_update_document": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ApiConnectionWebhook",
+                            "inputs": {
+                                "body": {
+                                    "Message": {
+                                        "Importance": "Normal",
+                                        "Options": "Approve, Reject",
+                                        "Subject": "[[[ GDP Sandbox ] Request Approval deployment Request",
+                                        "To": "melony.qin@microsoft.com; Vincent.Rouet@microsoft.com; Ian.Clarke@microsoft.com"
+                                    },
+                                    "NotificationUrl": "@{listCallbackUrl()}"
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['office365']['connectionId']"
+                                    }
+                                },
+                                "path": "/approvalmail/$subscriptions"
+                            }
+                        },
+                        "Switch_:_whether_if_the_request_will_be_approved": {
+                            "runAfter": {
+                                "Update_document_status": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "cases": {
+                                "Case": {
+                                    "case": "Approve",
+                                    "actions": {
+                                        "Switch_:_choose_image_path": {
+                                            "runAfter": {},
+                                            "cases": {
+                                                "Case": {
+                                                    "case": "dataanalyticsandbox-SQLDB-CI",
+                                                    "actions": {
+                                                        "Queue_a_new_build_for_SQL_DB": {
+                                                            "runAfter": {},
+                                                            "type": "ApiConnection",
+                                                            "inputs": {
+                                                                "host": {
+                                                                    "connection": {
+                                                                        "name": "@parameters('$connections')['visualstudioteamservices']['connectionId']"
+                                                                    }
+                                                                },
+                                                                "method": "post",
+                                                                "path": "/@{encodeURIComponent('dataanalyticsandbox')}/_apis/build/builds",
+                                                                "queries": {
+                                                                    "account": "msnamtazpro",
+                                                                    "buildDefId": "18"
+                                                                }
+                                                            }
+                                                        },
+                                                        "Save_build_number_for_SQL_DB": {
+                                                            "runAfter": {
+                                                                "Queue_a_new_build_for_SQL_DB": [
+                                                                    "Succeeded"
+                                                                ]
+                                                            },
+                                                            "type": "ApiConnection",
+                                                            "inputs": {
+                                                                "body": {
+                                                                    "build_number": "@{body('Queue_a_new_build_for_SQL_DB')?['buildNumber']}",
+                                                                    "comment": "@{body('Parse_JSON')?['comment']}",
+                                                                    "email": "@{body('Parse_JSON')?['email']}",
+                                                                    "id": "@{body('Parse_JSON')?['id']}",
+                                                                    "image": "@{body('Parse_JSON')?['image']}",
+                                                                    "name": "@{body('Parse_JSON')?['name']}",
+                                                                    "requesttime": "@body('Parse_JSON')?['requesttime']",
+                                                                    "status": "@{body('Send_approval_email_to_administrators')?['SelectedOption']}"
+                                                                },
+                                                                "headers": {
+                                                                    "x-ms-consistency-level": "Strong",
+                                                                    "x-ms-documentdb-is-upsert": true,
+                                                                    "x-ms-documentdb-raw-partitionkey": " \"@{body('Update_document_status')?['id']}\" "
+                                                                },
+                                                                "host": {
+                                                                    "connection": {
+                                                                        "name": "@parameters('$connections')['documentdb']['connectionId']"
+                                                                    }
+                                                                },
+                                                                "method": "post",
+                                                                "path": "/dbs/@{encodeURIComponent('SandDB')}/colls/@{encodeURIComponent('adodata')}/docs"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "Case_2": {
+                                                    "case": "dataanalyticsandbox-Databricks-CI",
+                                                    "actions": {
+                                                        "Queue_a_new_build_for_Databricks": {
+                                                            "runAfter": {},
+                                                            "type": "ApiConnection",
+                                                            "inputs": {
+                                                                "host": {
+                                                                    "connection": {
+                                                                        "name": "@parameters('$connections')['visualstudioteamservices']['connectionId']"
+                                                                    }
+                                                                },
+                                                                "method": "post",
+                                                                "path": "/@{encodeURIComponent('dataanalyticsandbox')}/_apis/build/builds",
+                                                                "queries": {
+                                                                    "account": "msnamtazpro",
+                                                                    "buildDefId": "19"
+                                                                }
+                                                            }
+                                                        },
+                                                        "Save_build_number_for_Databricks": {
+                                                            "runAfter": {
+                                                                "Queue_a_new_build_for_Databricks": [
+                                                                    "Succeeded"
+                                                                ]
+                                                            },
+                                                            "type": "ApiConnection",
+                                                            "inputs": {
+                                                                "body": {
+                                                                    "build_number": "@{body('Queue_a_new_build_for_Databricks')?['buildNumber']}",
+                                                                    "comment": "@{body('Parse_JSON')?['comment']}",
+                                                                    "email": "@{body('Parse_JSON')?['email']}",
+                                                                    "id": "@{body('Parse_JSON')?['id']}",
+                                                                    "image": "@{body('Parse_JSON')?['image']}",
+                                                                    "name": "@{body('Parse_JSON')?['name']}",
+                                                                    "requesttime": "@body('Parse_JSON')?['requesttime']",
+                                                                    "status": "@{body('Send_approval_email_to_administrators')?['SelectedOption']}"
+                                                                },
+                                                                "headers": {
+                                                                    "x-ms-consistency-level": "Strong",
+                                                                    "x-ms-documentdb-is-upsert": true,
+                                                                    "x-ms-documentdb-raw-partitionkey": "\"@{body('Update_document_status')?['id']}\""
+                                                                },
+                                                                "host": {
+                                                                    "connection": {
+                                                                        "name": "@parameters('$connections')['documentdb']['connectionId']"
+                                                                    }
+                                                                },
+                                                                "method": "post",
+                                                                "path": "/dbs/@{encodeURIComponent('SandDB')}/colls/@{encodeURIComponent('adodata')}/docs"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "default": {
+                                                "actions": {
+                                                    "Queue_a_new_build_for_AKS": {
+                                                        "runAfter": {},
+                                                        "type": "ApiConnection",
+                                                        "inputs": {
+                                                            "host": {
+                                                                "connection": {
+                                                                    "name": "@parameters('$connections')['visualstudioteamservices']['connectionId']"
+                                                                }
+                                                            },
+                                                            "method": "post",
+                                                            "path": "/@{encodeURIComponent('dataanalyticsandbox')}/_apis/build/builds",
+                                                            "queries": {
+                                                                "account": "msnamtazpro",
+                                                                "buildDefId": "15"
+                                                            }
+                                                        }
+                                                    },
+                                                    "Save_build_number_for_AKS": {
+                                                        "runAfter": {
+                                                            "Queue_a_new_build_for_AKS": [
+                                                                "Succeeded"
+                                                            ]
+                                                        },
+                                                        "type": "ApiConnection",
+                                                        "inputs": {
+                                                            "body": {
+                                                                "build_number": "@{body('Queue_a_new_build_for_AKS')?['buildNumber']}",
+                                                                "comment": "@{body('Parse_JSON')?['comment']}",
+                                                                "email": "@{body('Parse_JSON')?['email']}",
+                                                                "id": "@{body('Parse_JSON')?['id']}",
+                                                                "image": "@{body('Parse_JSON')?['image']}",
+                                                                "name": "@{body('Parse_JSON')?['name']}",
+                                                                "requesttime": "@body('Parse_JSON')?['requesttime']",
+                                                                "status": "@{body('Send_approval_email_to_administrators')?['SelectedOption']}"
+                                                            },
+                                                            "headers": {
+                                                                "x-ms-consistency-level": "Strong",
+                                                                "x-ms-documentdb-is-upsert": true,
+                                                                "x-ms-documentdb-raw-partitionkey": "\"@{body('Update_document_status')?['id']}\""
+                                                            },
+                                                            "host": {
+                                                                "connection": {
+                                                                    "name": "@parameters('$connections')['documentdb']['connectionId']"
+                                                                }
+                                                            },
+                                                            "method": "post",
+                                                            "path": "/dbs/@{encodeURIComponent('SandDB')}/colls/@{encodeURIComponent('adodata')}/docs"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "expression": "@body('Parse_JSON')?['image']",
+                                            "type": "Switch"
+                                        }
+                                    }
+                                },
+                                "Case_2": {
+                                    "case": "Reject",
+                                    "actions": {
+                                        "Send_an_email_(V2)": {
+                                            "runAfter": {},
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "body": {
+                                                    "Body": "<p>Your deployment Request has been refused</p>",
+                                                    "Subject": "[[[ GDP Sandbox ] Refused deployment Request",
+                                                    "To": "@body('Parse_JSON')?['email']"
+                                                },
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['office365']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "post",
+                                                "path": "/v2/Mail"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "default": {
+                                "actions": {}
+                            },
+                            "expression": "@body('Send_approval_email_to_administrators')?['SelectedOption']",
+                            "type": "Switch"
+                        },
+                        "Update_document_status": {
+                            "runAfter": {
+                                "Send_approval_email_to_administrators": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "body": {
+                                    "comment": "@body('Parse_JSON')?['comment']",
+                                    "email": "@body('Parse_JSON')?['email']",
+                                    "id": "@body('Parse_JSON')['id']",
+                                    "image": "@body('Parse_JSON')?['image']",
+                                    "lifetime": "@body('Parse_JSON')?['lifetime']",
+                                    "location": "@body('Parse_JSON')?['location']",
+                                    "name": "@body('Parse_JSON')?['name']",
+                                    "requesttime": "@body('Parse_JSON')?['requesttime']",
+                                    "status": "@body('Send_approval_email_to_administrators')?['SelectedOption']"
+                                },
+                                "headers": {
+                                    "x-ms-consistency-level": "Strong",
+                                    "x-ms-documentdb-is-upsert": true,
+                                    "x-ms-documentdb-partitionkey": "@body('Create_or_update_document')?['id']"
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['documentdb']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/dbs/@{encodeURIComponent('SandDB')}/colls/@{encodeURIComponent('adodata')}/docs"
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "documentdb": {
+                                "connectionId": "[parameters('connections_documentdb_externalid')]",
+                                "connectionName": "documentdb",
+                                "id": "/subscriptions/d7a6978e-18e2-48b3-ab11-9a363dc3e746/providers/Microsoft.Web/locations/westeurope/managedApis/documentdb"
+                            },
+                            "office365": {
+                                "connectionId": "[parameters('connections_office365_externalid')]",
+                                "connectionName": "office365",
+                                "id": "/subscriptions/d7a6978e-18e2-48b3-ab11-9a363dc3e746/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
+                            },
+                            "visualstudioteamservices": {
+                                "connectionId": "[parameters('connections_visualstudioteamservices_1_externalid')]",
+                                "connectionName": "visualstudioteamservices-1",
+                                "id": "/subscriptions/d7a6978e-18e2-48b3-ab11-9a363dc3e746/providers/Microsoft.Web/locations/westeurope/managedApis/visualstudioteamservices"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

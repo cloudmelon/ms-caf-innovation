@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+        "clusterName": {
+			"value": "OneMediaAKS"
+		},
+		"dnsPrefix": {
+			"value": "OneMediaAKS"
+		},
+		"linuxAdminUsername": {
+			"value": "aksadmin"
+		},
+		"sshRSAPublicKey": {
+			"value": "SSH-PUB-KEY"
+		},
+		"servicePrincipalClientId": {
+			"value": "5cb651c1-0098-4b3b-b21f-51587ef64b8a"
+		},
+		"servicePrincipalClientSecret": {
+			"value": "f9cffd83-36b2-4f40-b142-3190d35708f7"
+		}
+	}
+}
