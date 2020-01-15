@@ -8,12 +8,17 @@ variable "location" {
   description = "The Azure Region in which all resources in this example should be provisioned"
 }
 
-variable "kubernetes_client_id" {
-  default = "5cb651c1-0098-4b3b-b21f-51587ef64b8a"
+variable "client_id" {
+  default = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   description = "The Client ID for the Service Principal to use for this Managed Kubernetes Cluster"
 }
 
-variable "kubernetes_client_secret" {
-  default = "f9cffd83-36b2-4f40-b142-3190d35708f7"
+variable "client_secret" {
+  default = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   description = "The Client Secret for the Service Principal to use for this Managed Kubernetes Cluster"
+}
+
+variable "vnet_id" {
+  default = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  description = "Use CNI for this Managed Kubernetes Cluster must pass Vnet ID which refers to the VNet to deploy this cluster"
 }

@@ -1,6 +1,7 @@
 provider "azurerm" {
-  version = "=1.20.0"
+  version = "=1.38.0"
 }
+
 
 resource "azurerm_resource_group" "rg" {
   name     = "one-media-tf-rg"
@@ -21,9 +22,14 @@ resource "azurerm_kubernetes_cluster" "aks" {
     os_disk_size_gb = 30
   }
 
+  network_profile {
+    network_plugin = "azure",
+    vnet_subnet_id = "${var.vnet_id}"
+  }
+
   service_principal {
-    client_id     = "${var.kubernetes_client_id}"
-    client_secret = "${var.kubernetes_client_secret}"
+    client_id     = "${var.client_id}"
+    client_secret = "${var.client_secret}"
   }
 
   tags {
