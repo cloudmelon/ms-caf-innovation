@@ -10,6 +10,8 @@ export ARM_TENANT_ID=xxxxxxxx
 
 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/your_subscription_id"
 
+## IMPORTANT! terraform init first 
+
 terraform plan -var "client_id=your_client_id" -var "client_secret=your_client_secret" -out run.plan
 
 terraform apply "run.plan"          
