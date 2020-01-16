@@ -21,7 +21,7 @@
             "value": "caf-vnet"
         },
         "existingVirtualNetworkResourceGroup": {
-            "value": "msmelon-caf-rg"
+            "value": "ms-onemedia-rg"
         },
         "existingSubnetName": {
             "value": "aks-subnet"
