@@ -14,7 +14,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   resource_group_name = "${azurerm_resource_group.rg.name}"
   dns_prefix          = "${var.prefix}-k8s"
 
-  agent_pool_profile {
+  default_node_pool {
     name            = "default"
     count           = 1
     vm_size         = "Standard_D3_v2"
