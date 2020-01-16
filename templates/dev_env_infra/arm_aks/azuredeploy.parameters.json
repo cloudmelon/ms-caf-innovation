@@ -9,22 +9,22 @@
             "value": "OneMediaAKS"
         },
         "existingServicePrincipalObjectId": {
-            "value": "GEN-GUID"
+            "value": "5b7814d3-653d-4c6e-a2fa-04a369da612d"
         },
         "existingServicePrincipalClientId": {
-            "value": "GEN-GUID"
+            "value": "c496cc6b-290d-4d72-bf71-fbd05e3cb10d"
         },
         "existingServicePrincipalClientSecret": {
-            "value": "GEN-PASSWORD"
+            "value": "cbd578f8-9625-4f17-9313-19fb5f6e7113"
         },
         "existingVirtualNetworkName": {
-            "value": "GET-PREREQ-vnetName"
+            "value": "caf-vnet"
         },
         "existingVirtualNetworkResourceGroup": {
-            "value": "GET-PREREQ-vnetResourceGroupName"
+            "value": "msmelon-caf-rg"
         },
         "existingSubnetName": {
-            "value": "GET-PREREQ-subnetName"
+            "value": "aks-subnet"
         }
     }
 }
