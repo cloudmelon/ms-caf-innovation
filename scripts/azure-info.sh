@@ -9,3 +9,8 @@ SUBNET=$(az network vnet subnet show --resource-group ms-onemedia-rg --vnet-name
 # get lates aks in your region of choice
 
 VERSION=$(az aks get-versions -l NorthEurope --query 'orchestrators[-1].orchestratorVersion' -o tsv)
+
+
+# Get access to your AKS Cluster 
+az aks get-credentials --name yourclusername --resource-group yourazresourcegroup
+
