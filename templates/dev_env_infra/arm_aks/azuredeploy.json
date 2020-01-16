@@ -147,7 +147,7 @@
         },
         "dockerBridgeCidr": {
             "type": "string",
-            "defaultValue": "172.17.0.1/24",
+            "defaultValue": "172.17.0.1/16",
             "metadata": {
                 "description": "A CIDR notation IP for Docker bridge."
             }

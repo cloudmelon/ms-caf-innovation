@@ -19,6 +19,6 @@ variable "client_secret" {
 }
 
 variable "vnet_id" {
-  default = "/subscriptions/9b1b3746-eb27-417d-804c-a00646520a34/resourceGroups/msmelon-caf-rg/providers/Microsoft.Network/virtualNetworks/caf-vnet/subnets/aks-subnet"
+  default = "/subscriptions/9b1b3746-eb27-417d-804c-a00646520a34/resourceGroups/ms-onemedia-rg/providers/Microsoft.Network/virtualNetworks/caf-vnet/subnets/aks-subnet"
   description = "Use CNI for this Managed Kubernetes Cluster must pass Vnet ID which refers to the VNet to deploy this cluster"
 }
