@@ -19,7 +19,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     count           = 1
     vm_size         = "Standard_D3_v2"
     os_type         = "Linux"
-    os_disk_size_gb = 30,
+    os_disk_size_gb = 30
     vnet_subnet_id = "${var.vnet_id}"
   }
 
