@@ -8,4 +8,4 @@ SUBNET=$(az network vnet subnet show --resource-group msmelon-caf-rg --vnet-name
 
 # get lates aks in your region of choice
 
-VERSION=$(az aks get-versions -l <region> --query 'orchestrators[-1].orchestratorVersion' -o tsv)
+VERSION=$(az aks get-versions -l NorthEurope --query 'orchestrators[-1].orchestratorVersion' -o tsv)
