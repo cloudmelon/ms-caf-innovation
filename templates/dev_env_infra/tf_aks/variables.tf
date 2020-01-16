@@ -3,9 +3,32 @@ variable "prefix" {
   description = "A prefix used for all resources in this example"
 }
 
+variable "resource_group_name" {
+   default = "one-media-rg"
+   description = "A prefix used for all resources in this example"
+}
+
 variable "location" {
   default     = "West Europe"
   description = "The Azure Region in which all resources in this example should be provisioned"
+}
+
+variable "ssh_public_key" {
+    default = "~/.ssh/id_rsa.pub"
+}
+
+variable log_analytics_workspace_name {
+    default = "testLogAnalyticsWorkspaceName"
+}
+
+# refer https://azure.microsoft.com/global-infrastructure/services/?products=monitor for log analytics available regions
+variable log_analytics_workspace_location {
+    default = "North Europe"
+}
+
+# refer https://azure.microsoft.com/pricing/details/monitor/ for log analytics pricing 
+variable log_analytics_workspace_sku {
+    default = "PerGB2018"
 }
 
 variable "client_id" {
