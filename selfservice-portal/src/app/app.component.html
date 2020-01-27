@@ -1,0 +1,80 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h2>GDP Sandbox administration</h2>
+  <div id="form-main">
+    <div id="form-div">
+      <form class="form" id="subform" (submit)="onSubmit($event)">
+        
+        <p class="name">
+          <input type="text" class="feedback-input"  [(ngModel)]="data.name" name="name" placeholder="Name" id="name" required>
+        </p>
+        
+        <p class="email">
+          <input type="text" class="feedback-input" id="email" [(ngModel)]="data.email" name="email"  placeholder="Email" required>
+        </p>
+
+
+        <p class="text">
+          <textarea class="feedback-input" id="comment" [(ngModel)]="data.comment"  name="text" placeholder="Comment" required></textarea>
+        </p>
+      
+        <p class="name">
+          <mat-form-field class="feedback-input">
+            <mat-select [(value)]="selected" [(ngModel)]="data.selected" name="selected" placeholder="Choose image" required> 
+              <mat-option>Not selected</mat-option>
+              <mat-option value="1">Azure Kubernetes Service ( AKS )</mat-option>
+              <mat-option value="2">Azure SQL Database</mat-option>
+              <mat-option value="3">Azure Databricks</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <label [hidden]="true">You selected : {{ selected }}</label>
+        </p>
+
+        <p class="name">
+          <mat-form-field class="feedback-input">
+            <mat-select [(value)]="location" [(ngModel)]="data.location" name="location" placeholder="Choose Kubernetes Image type" required> 
+              <mat-option>Not selected</mat-option>
+              <mat-option value="1">Text Analytics - Key Phrase Extraction	</mat-option>
+              <mat-option value="2">Text Analytics - Language Detection</mat-option>
+              <mat-option value="3">Text Analytics - Sentiment Analysis</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </p>
+         
+        <p class="name">
+          <mat-form-field class="feedback-input">
+            <mat-select [(value)]="location" [(ngModel)]="data.location" name="location" placeholder="Choose target region" required> 
+              <mat-option>Not selected</mat-option>
+              <mat-option value="1">EMEA</mat-option>
+              <mat-option value="2">Americas</mat-option>
+              <mat-option value="3">APAC</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </p>
+
+        <p class="name">
+          <mat-form-field class="feedback-input">
+            <mat-select [(value)]="lifetime" [(ngModel)]="data.lifetime" name="lifetime" placeholder="Choose time-to-live" required> 
+              <mat-option>Not selected</mat-option>
+              <mat-option value="1">1 day</mat-option>
+              <mat-option value="2">3 days</mat-option>
+              <mat-option value="3">1 week</mat-option>
+              <mat-option value="4">2 weeks</mat-option>
+              <mat-option value="5">1 month</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </p>
+
+        <div class="submit">
+          <input type="submit" value="Submit" id="button-blue"/>
+          <div class="ease"></div>
+        </div>
+      </form>
+    </div>
+    <div>
+      
+
+    </div>
+
+
+</div>

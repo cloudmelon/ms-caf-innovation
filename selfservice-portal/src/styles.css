@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+@import "../node_modules/ngx-toastr/toastr.css";
+@import "../node_modules/angular-vertical-timeline/dist/vertical-timeline.css";
+
+html{    
+  background:url("./assets/DANBG.jpeg") no-repeat;
+  background-size: cover;
+  font-family: "Lato", Verdana, sans-serif;
+}
+
+h2
+{
+  color: white;
+  font-size: 2em;
+  margin-top: 6rem;
+}
