@@ -14,3 +14,7 @@ VERSION=$(az aks get-versions -l NorthEurope --query 'orchestrators[-1].orchestr
 # Get access to your AKS Cluster 
 az aks get-credentials --name yourclusername --resource-group yourazresourcegroup
 
+
+
+
+
