@@ -22,23 +22,14 @@
           <mat-form-field class="feedback-input">
             <mat-select [(value)]="selected" [(ngModel)]="data.selected" name="selected" placeholder="Choose image" required> 
               <mat-option>Not selected</mat-option>
-              <mat-option value="1">Azure Kubernetes Service ( AKS )</mat-option>
-              <mat-option value="2">Azure SQL Database</mat-option>
-              <mat-option value="3">Azure Databricks</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <label [hidden]="true">You selected : {{ selected }}</label>
-        </p>
-
-        <p class="name">
-          <mat-form-field class="feedback-input">
-            <mat-select [(value)]="location" [(ngModel)]="data.location" name="location" placeholder="Choose Kubernetes Image type" required> 
-              <mat-option>Not selected</mat-option>
               <mat-option value="1">Text Analytics - Key Phrase Extraction	</mat-option>
               <mat-option value="2">Text Analytics - Language Detection</mat-option>
               <mat-option value="3">Text Analytics - Sentiment Analysis</mat-option>
+              <mat-option value="4">Azure SQL Database</mat-option>
+              <mat-option value="5">Azure Databricks</mat-option>
             </mat-select>
           </mat-form-field>
+          <label [hidden]="true">You selected : {{ selected }}</label>
         </p>
          
         <p class="name">
