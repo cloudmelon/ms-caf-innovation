@@ -23,11 +23,10 @@
                 <mat-form-field class="feedback-input">
                   <mat-select id="selected" name="selected" placeholder="Choose image" required ngModel> 
                     <mat-option>Not selected</mat-option>
+                    <mat-option value="0">Azure SQL Database</mat-option>
                     <mat-option value="1">Text Analytics - Key Phrase Extraction </mat-option>
                     <mat-option value="2">Text Analytics - Language Detection</mat-option>
                     <mat-option value="3">Text Analytics - Sentiment Analysis</mat-option> 
-                    <mat-option value="4">Azure SQL Database</mat-option>
-                    <mat-option value="5">Azure Databricks</mat-option>
                   </mat-select>
                 </mat-form-field>
                 <!--<label [hidden]="true">You selected : {{ selected }}</label>-->

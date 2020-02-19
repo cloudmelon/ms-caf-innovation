@@ -23,19 +23,19 @@ export class HomeComponent implements OnInit {
 
   onSubmit(form) {
    
-    if (event) event.preventDefault();
+    console.log('build =====>', form);
   
     var build = {
-        name : form.name,
-        email : form.email,
-        comment : form.comment,
-        location : form.location,
-        lifetime : form.lifetime,
-        image : form.selected,
+        name : form.value.name,
+        email : form.value.email,
+        comment : form.value.comment,
+        location : form.value.location,
+        lifetime : form.value.lifetime,
+        image : form.value.selected,
         requesttime: Date.now()
     };
    
-    console.log('build =====>', build);
+    console.log('pass data =====>', build);
 
     this.apiService.goBuild(build)
     .subscribe(res => {
@@ -44,8 +44,7 @@ export class HomeComponent implements OnInit {
       console.log(err);
     });
 
-    console.log('passe data ====> ', build);
-    
+   
     this.toastr.success('The deployment request has been submitted successfully', 'Success!');
   }
 

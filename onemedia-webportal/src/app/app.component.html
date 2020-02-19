@@ -1,32 +1,14 @@
-
-
-<h2>Contoso OneMedia Self-service Portal</h2>
-
-<button mat-button [matMenuTriggerFor]="menu">Menu</button>
+<div style="text-align:center">
+  <h1>Contoso OneMedia Self-service Portal</h1>
+</div>
+<div style="float:right; padding-right:50px;">
+  <button mat-button [matMenuTriggerFor]="menu" class="btn"><i class="fa fa-bars"></i></button>
 <mat-menu #menu="">
-  <button mat-menu-item routerLinkActive="active" routerLink="/home">Home</button>
-  <button mat-menu-item routerLinkActive="active" routerLink="/about">About</button>
-  <button mat-menu-item routerLinkActive="active" routerLink="/products">About</button>
+  <button mat-menu-item routerLinkActive="active" routerLink="/home"><i class="fa fa-home"></i> Home</button>
+  <button mat-menu-item routerLinkActive="active" routerLink="/contact"><i class="fa fa-address-card-o"></i> Contact</button>
+  <button mat-menu-item routerLinkActive="active" routerLink="/about"><i class="fa fa-user-circle"></i> About</button>
 </mat-menu>
-<!--<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
-  <div class="container">
-    <a class="navbar-brand" href="#">Contoso OneMedia Self-service Portal</a>
-    <ul class="nav nav-pills">
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/about">About</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/products">Products</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/contact">Contact</a>
-      </li>
-    </ul>
-  </div>
-</nav>-->
+</div>
 
 <div class="container text-center">
   <router-outlet></router-outlet>
