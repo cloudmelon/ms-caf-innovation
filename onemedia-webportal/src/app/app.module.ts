@@ -13,18 +13,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
-import { ContactComponent } from './contact/contact.component';
+import { EnvComponent } from './env/env.component';
+import { InfraComponent } from './infra/infra.component';
 import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    AboutComponent,
-    ProductDetailComponent,
-    ContactComponent,
+    EnvComponent,
+    InfraComponent,
     NoPageFoundComponent
   ],
   imports: [

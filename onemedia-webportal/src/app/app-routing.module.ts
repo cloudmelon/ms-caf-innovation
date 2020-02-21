@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
-import { ContactComponent } from './contact/contact.component';
+import { EnvComponent } from './env/env.component';
+import { InfraComponent } from './infra/infra.component';
 import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
 
 
@@ -12,9 +11,8 @@ import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
-    { path: 'about', component: AboutComponent },
-    { path: 'product-detail/:id', component: ProductDetailComponent },
-    { path: 'contact', component: ContactComponent },
+    { path: 'env', component: EnvComponent },
+    { path: 'infra', component: InfraComponent },
     { path: '**', component: NoPageFoundComponent }
 ];
 
