@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { EnvService } from '../services/env.service';
 import { NgForm } from '@angular/forms';
 import { from } from 'rxjs';
+import { Guid } from "guid-typescript";
 
 @Component({
   selector: 'app-env',
@@ -20,8 +21,10 @@ export class EnvComponent implements OnInit {
   onSubmit(form) {
     
     console.log('build =====>', form);
-  
+    var buildId = Guid.create().toString();
+    
     var build = {
+        id : buildId,
         name : form.value.name,
         email : form.value.email,
         comment : form.value.comment,

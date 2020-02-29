@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../services/api.service';
-import { NgForm } from '@angular/forms';
+import { Guid } from "guid-typescript";
 
 
 @Component({
@@ -24,15 +24,19 @@ export class InfraComponent implements OnInit {
    onSubmit(form) {
     
      console.log('build =====>', form);
-   
+
+     var buildId = Guid.create().toString();
+     console.log('build id =====>', buildId);
+
      var build = {
+         id : buildId,
          name : form.value.name,
          email : form.value.email,
          comment : form.value.comment,
          location : form.value.location,
          lifetime : form.value.lifetime,
          image : form.value.selected,
-         requesttime: Date.now()
+         requesttime: Date.now().toString()
      };
     
      console.log('pass data =====>', build);
