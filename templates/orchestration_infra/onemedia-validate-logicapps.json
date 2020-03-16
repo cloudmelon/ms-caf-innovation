@@ -7,7 +7,7 @@
             "type": "String"
         },
         "azure_deployment_region": {
-            "defaultValue": "westeurope",
+            "defaultValue": "[resourceGroup().location]",
             "type": "String"
         },
         "workflows_ms_onemedia_logicapp_name": {
