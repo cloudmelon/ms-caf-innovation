@@ -7,7 +7,7 @@ const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
-const apiUrl = "https://prod-41.westeurope.logic.azure.com:443/workflows/cb68bfbaa74d4e41ab744d7fdabeecc0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jpeiDqgkihoqetaSeO48lf2GJKHVK1TmTQuu7Yq8kmk";
+const apiUrl = "https://prod-102.westeurope.logic.azure.com:443/workflows/5995f4bc67374a589b26172d7c64b9b7/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VWALHfh0hL-C9l7QyKhwj5L_7DXERzqFCvwroscE9pM";
 
 
 export class Build {
@@ -20,6 +20,7 @@ export class Build {
 @Injectable({
   providedIn: 'root'
 })
+
 export class ApiService {
 
   constructor(private http: HttpClient) { }
